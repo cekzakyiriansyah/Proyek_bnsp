@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/username/repo.git'
+                    url: 'https://github.com/cekzakyiriansyah/Proyek_bnsp.git'
             }
         }
 
@@ -30,7 +31,24 @@ pipeline {
     }
 
     post {
-        success { echo "SUCCESS" }
-        failure { echo "FAILED" }
+        success {
+            echo "SUCCESS"
+            bat """
+            curl -H "Content-Type: application/json" ^
+            -X POST ^
+            -d "{\\"content\\": \\"✅ Build SUCCESS dari Jenkins!\\", \\"username\\": \\"JenkinsBot\\"}" ^
+            "https://discord.com/api/webhooks/1426469908967063636/NNpNFjy7K4PtPbZ5Hz74RAwJ-jTiYVCNXNRqczTif0NZhik9bhQrb2cLHdDoVyoRcCJO"
+            """
+        }
+
+        failure {
+            echo "FAILED"
+            bat """
+            curl -H "Content-Type: application/json" ^
+            -X POST ^
+            -d "{\\"content\\": \\"❌ Build FAILED dari Jenkins!\\", \\"username\\": \\"JenkinsBot\\"}" ^
+            "https://discord.com/api/webhooks/1426469908967063636/NNpNFjy7K4PtPbZ5Hz74RAwJ-jTiYVCNXNRqczTif0NZhik9bhQrb2cLHdDoVyoRcCJO"
+            """
+        }
     }
 }
