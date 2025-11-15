@@ -1,0 +1,6 @@
+{
+  "name": "cicd-test",
+  "scripts": {
+    "test": "echo \"Test passed\""
+  }
+}
